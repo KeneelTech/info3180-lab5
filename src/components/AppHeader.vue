@@ -1,6 +1,8 @@
 <template>
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+      <router-link to="/movies">View Movies</router-link>
+      <router-link to="/movies/create">Add Movie</router-link>
       <div class="container-fluid">
         <a class="navbar-brand" href="/">VueJS with Flask</a>
         <button

@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import AddMovieFormView from '../views/AddMovieFormView.vue';
 import HomeView from '../views/HomeView.vue'
+import MoviesView from '../views/MovieView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,8 +19,21 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/movies/create',
+      name: 'AddMovieForm',
+      component: AddMovieFormView
+    },
+    {
+      path: '/movies',
+      name: 'Movies',
+      component: MoviesView
     }
   ]
 })
+
+
+
 
 export default router

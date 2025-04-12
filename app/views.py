@@ -10,6 +10,9 @@ from flask import render_template, request, jsonify, send_file, current_app
 from werkzeug.utils import secure_filename
 from .forms import MovieForm
 from .models import db, MovieDatabase
+from flask import send_from_directory
+from flask_wtf.csrf import generate_csrf
+
 import os
 
 
@@ -25,6 +28,28 @@ def index():
 ###
 # The functions below should be applicable to all Flask apps.
 ###
+
+@app.route('/api/v1/movies', methods=['GET'])
+def get_movies():
+    movies = MovieDatabase.query.all()
+    movie_list = []
+    for movie in movies:
+        movie_list.append({
+            "id": movie.id,
+            "title": movie.title,
+            "description": movie.description,
+            "poster": f"/api/v1/posters/{movie.poster}"
+        })
+    return jsonify({"movies": movie_list})
+
+@app.route('/api/v1/posters/<filename>', methods=['GET'])
+def get_poster(filename):
+    upload_folder = current_app.config['UPLOAD_FOLDER']
+    return send_from_directory(upload_folder, filename)
+
+@app.route('/api/v1/csrf-token', methods=['GET'])
+def get_csrf():
+    return jsonify({'csrf_token': generate_csrf()})
 
 @app.route('/api/v1/movies', methods=['POST'])
 def movies():
